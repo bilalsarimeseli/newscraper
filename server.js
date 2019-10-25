@@ -11,8 +11,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 //Models
-const Note = require("./models/Note.js");
-const Article = require("./models/Article.js");
+const Note = require("./models/note.js");
+const Article = require("./models/article.js");
 
 //Port
 const PORT = process.env.PORT || 3030
@@ -30,7 +30,7 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-mongoose.connect("mongodb://localhost/news-scraper");
+mongoose.connect("mongodb://localhost/newscraper");
 
 // Express Initialization
 const app = express();
