@@ -11,8 +11,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 //Models
-const Note = require("./models/note.js");
-const Article = require("./models/article.js");
+const Note = require("./models/Note.js");
+const Article = require("./models/Article.js");
 
 //Port
 const PORT = process.env.PORT || 3030
@@ -43,3 +43,25 @@ app.use(bodyParser.urlencoded({
 
 // Make public a static directory
 app.use(express.static("public"));
+
+
+//ROUTES TO THE MAIN PAGE
+
+app.get("/", function (req, res) {
+    Article.find({ "saved": false }, function (error, data) {
+        var hbsObject = {
+            article: data
+        };
+        console.log(hbsObject);
+        res.render("index", hbsObject);
+    });
+});
+
+app.get("/saved", function (req, res) {
+    Article.find({ "saved": true }).populate("notes").exec(function (error, articles) {
+        var hbsObject = {
+            article: articles
+        };
+        res.render("saved", hbsObject);
+    });
+});
