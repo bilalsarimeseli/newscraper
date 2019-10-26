@@ -31,7 +31,9 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-mongoose.connect("mongodb://localhost/newscraper");
+mongoose.connect("mongodb://localhost/newscraper", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.set('useCreateIndex', true)
+
 
 
 // Use morgan and body parser with our app
