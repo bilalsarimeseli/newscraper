@@ -31,7 +31,9 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-mongoose.connect("mongodb://localhost/newscraper", { useNewUrlParser: true, useUnifiedTopology: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newscraper";
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true)
 
 
@@ -49,7 +51,11 @@ app.use(express.static("public"));
 //ROUTES TO THE MAIN PAGE//
 
 app.get("/", function (req, res) {
+    console.log("Hello world")
     Article.find({ "saved": false }, function (error, data) {
+        if (error) {
+            console.log(error);
+        }
         var hbsObject = {
             article: data
         };
@@ -75,13 +81,13 @@ app.get("/scrape", function (req, res) {
     axios.get("https://www.nytimes.com/section/us").then(function (response) {
         // Then, cheerio is loaded and $ is used as `selector`
         var $ = cheerio.load(response.data);
-        $("div.story-body").each(function (i, element) {
+        $("li.css-ye6x8s").each(function (i, element) {
 
             var result = {};
 
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(element)
-                .children("h2.headline")
+                .find("h2.css-1j9dxys")
                 .text();
             result.link = $(element)
                 .find("a")
@@ -89,6 +95,8 @@ app.get("/scrape", function (req, res) {
             result.summary = $(element)
                 .find("p.summary")
                 .text();
+
+                console.log(result)
 
                 Article.create(result) 
                     .then(function(data) {
