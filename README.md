@@ -8,12 +8,12 @@ A web app that lets users view and leave comments on the latest news that uses M
 
 
 ## Code Structure
-_________________
-
+_____
+The server.js contains the code necessary to launch the application hosting HTML, CSS, JavaScript, requiring the routes, and express's settings to function with JSON. The models folder contains my schemas for MongoDB. My routing folder handles all of the appropriate routes. My server file contains the necessary code to run it locally.
 
 
 ## Technologies
-_________________
+_____
 
 **Front-End**
 
@@ -40,3 +40,7 @@ _________________
 ```
 
 ## Requirements
+
+```
+MongoDB with your credentials
+```
